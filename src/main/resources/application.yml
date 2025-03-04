@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: oauth2-authserver-1-20250102
+  datasource:
+    url: jdbc:postgresql://localhost:5432/oauth2_idea
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 9000
+
+logging:
+  level:
+    org.springframework.security: trace
