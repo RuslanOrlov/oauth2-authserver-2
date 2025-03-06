@@ -1,4 +1,4 @@
-package org.oauth2authserver120250102.services;
+package org.oauth2authserver2.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

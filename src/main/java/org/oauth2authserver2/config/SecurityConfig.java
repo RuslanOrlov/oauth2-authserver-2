@@ -1,12 +1,12 @@
-package org.oauth2authserver120250102.config;
+package org.oauth2authserver2.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import org.oauth2authserver120250102.models.MyUser;
-import org.oauth2authserver120250102.repositories.MyUserRepository;
+import org.oauth2authserver2.models.MyUser;
+import org.oauth2authserver2.repositories.MyUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -63,8 +63,6 @@ public class SecurityConfig {
                 .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .with(authorizationServerConfigurer, (authorizationServer) -> {
                     authorizationServer
-                            //.oidc((oidc) -> oidc
-                            //        .logoutEndpoint(Customizer.withDefaults()));
                             .oidc((Customizer.withDefaults()));
                 })
                 .authorizeHttpRequests((authorize) ->
@@ -85,7 +83,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
                         authorize
-                                //.requestMatchers("/oauth2/check-consent").permitAll()
                                 .anyRequest().authenticated())
                 .oauth2ResourceServer((oauth2) -> oauth2 // включение JWT-аутентификациидля для того, чтобы сервер авторизации
                         .jwt(Customizer.withDefaults())) // мог обрабатывать запросы с токеном JWT в заголовоке Authorization
@@ -114,16 +111,12 @@ public class SecurityConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        String ifForEncode = "bcrypt"; // основной алгоритм кодирования
+        String ifForEncode = "bcrypt";                              // основной алгоритм кодирования
         Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put(ifForEncode, new BCryptPasswordEncoder());
-        encoders.put("noop", NoOpPasswordEncoder.getInstance()); // поддержка plain text
+        encoders.put("noop", NoOpPasswordEncoder.getInstance());    // поддержка plain text
         return new DelegatingPasswordEncoder(ifForEncode, encoders);
     }
-    /*@Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }*/
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {

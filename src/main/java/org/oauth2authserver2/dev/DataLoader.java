@@ -1,8 +1,8 @@
-package org.oauth2authserver120250102.dev;
+package org.oauth2authserver2.dev;
 
 import lombok.RequiredArgsConstructor;
-import org.oauth2authserver120250102.models.MyUser;
-import org.oauth2authserver120250102.repositories.MyUserRepository;
+import org.oauth2authserver2.models.MyUser;
+import org.oauth2authserver2.repositories.MyUserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

@@ -1,10 +1,10 @@
-package org.oauth2authserver120250102.controllers;
+package org.oauth2authserver2.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.oauth2authserver120250102.services.AuthorizationAndTokenService;
+import org.oauth2authserver2.services.AuthorizationAndTokenService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.authorization.*;
@@ -145,44 +145,5 @@ public class LogoutController {
         // Перенаправление на страницу входа
         return "redirect:" + redirectUri; /*request.getParameter("post_logout_redirect_uri");*/
     }
-
-    /*private List<OAuth2Authorization> getUserAuthorizations(String principalName) {
-        Map<String, OAuth2Authorization> authorizations = new HashMap<>();
-        try {
-            Field authorizationsField = InMemoryOAuth2AuthorizationService.class.getDeclaredField("authorizations");
-            authorizationsField.setAccessible(true);
-            authorizations = (Map<String, OAuth2Authorization>) authorizationsField.get(authorizationService);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            // Если что-то пошло не так при получении доступа к полю - выбрасываем исключение
-            throw new RuntimeException("Failed to access authorizations map", e);
-        }
-        return authorizations.values()
-                .stream()
-                .filter(authorization -> authorization.getPrincipalName().equals(principalName))
-                .toList();
-    }
-
-    private void revokeToken(String token, String tokenTypeHint) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("my-client-id", "secret"); // Учетные данные клиента
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("token", token);
-        body.add("token_type_hint", tokenTypeHint);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(
-                "http://authserver:9000/oauth2/revoke", request, String.class);
-
-        if (response.getStatusCode().is2xxSuccessful()) {
-            log.info("=== AccessToken (Токен успешно отозван)        ===");
-        } else {
-            log.error("=== AccessToken (Ошибка при отзыве токена)     === {}", response.getBody());
-        }
-    }*/
 
 }

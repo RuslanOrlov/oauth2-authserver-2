@@ -1,6 +1,6 @@
-package org.oauth2authserver120250102.repositories;
+package org.oauth2authserver2.repositories;
 
-import org.oauth2authserver120250102.models.MyUser;
+import org.oauth2authserver2.models.MyUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

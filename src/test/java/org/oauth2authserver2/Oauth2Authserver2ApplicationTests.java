@@ -1,10 +1,10 @@
-package org.oauth2authserver120250102;
+package org.oauth2authserver2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Oauth2Authserver120250102ApplicationTests {
+class Oauth2Authserver2ApplicationTests {
 
     @Test
     void contextLoads() {

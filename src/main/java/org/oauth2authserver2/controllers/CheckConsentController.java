@@ -1,8 +1,8 @@
-package org.oauth2authserver120250102.controllers;
+package org.oauth2authserver2.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.oauth2authserver120250102.services.CheckConsentService;
+import org.oauth2authserver2.services.CheckConsentService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;

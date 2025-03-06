@@ -1,4 +1,4 @@
-package org.oauth2authserver120250102.models;
+package org.oauth2authserver2.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
