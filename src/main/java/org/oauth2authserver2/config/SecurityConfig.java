@@ -87,12 +87,6 @@ public class SecurityConfig {
                 .oauth2ResourceServer((oauth2) -> oauth2 // включение JWT-аутентификациидля для того, чтобы сервер авторизации
                         .jwt(Customizer.withDefaults())) // мог обрабатывать запросы с токеном JWT в заголовоке Authorization
                 .formLogin(Customizer.withDefaults())
-                /*.logout((logout) -> logout
-                        .logoutUrl("/oath2/logout")
-                        .logoutSuccessUrl("http://localhost:8080")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID"))*/
                 .build();
     }
 
