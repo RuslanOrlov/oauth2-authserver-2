@@ -1,44 +1,45 @@
 package org.oauth2authserver2.services;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class AuthorizationAndTokenService {
 
-    private final OAuth2AuthorizationService authorizationService;
+    //private final RegisteredClientRepository registeredClientRepository;
+    private final JdbcTemplate jdbcTemplate;
+    private final JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper authorizationRowMapper;
+
+    public AuthorizationAndTokenService(
+            RegisteredClientRepository registeredClientRepository,
+            JdbcTemplate jdbcTemplate) {
+        //this.registeredClientRepository = registeredClientRepository;
+        this.jdbcTemplate = jdbcTemplate;
+        this.authorizationRowMapper =
+                new JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper(registeredClientRepository);
+    }
 
     public List<OAuth2Authorization> getUserAuthorizations(String principalName) {
-        Map<String, OAuth2Authorization> authorizations;
-        try {
-            Field authorizationsField = InMemoryOAuth2AuthorizationService.class.getDeclaredField("authorizations");
-            authorizationsField.setAccessible(true);
-            authorizations = (Map<String, OAuth2Authorization>) authorizationsField.get(authorizationService);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            // Если что-то пошло не так при получении доступа к полю - выбрасываем исключение
-            throw new RuntimeException("Failed to access authorizations map", e);
-        }
-        return authorizations.values()
-                .stream()
-                .filter(authorization -> authorization.getPrincipalName().equals(principalName))
-                .toList();
+
+        String sql = "SELECT * FROM oauth2_authorization WHERE principal_name = ?";
+        List<OAuth2Authorization> authorizations =
+                jdbcTemplate.query(sql, authorizationRowMapper, principalName);
+
+        return authorizations;
     }
 
     public void revokeToken(String token, String tokenTypeHint) {
